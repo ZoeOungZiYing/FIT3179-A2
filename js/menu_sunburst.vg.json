@@ -1,0 +1,126 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "description": "Interactive Sunburst chart of McDonald's menu with dropdown filter",
+  "width": 500,
+  "height": 500,
+  "padding": 10,
+  "autosize": "none",
+
+  "signals": [
+    {
+      "name": "selectedCategory",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All",
+          "Breakfast",
+          "Beef & Pork",
+          "Chicken & Fish",
+          "Salads",
+          "Snacks & Sides",
+          "Desserts",
+          "Beverages",
+          "Coffee & Tea",
+          "Smoothies & Shakes"
+        ],
+        "name": "Select Category: "
+      }
+    },
+    {
+      "name": "clickedNode",
+      "update": "null",
+      "on": [
+        {
+          "events": "arc:click",
+          "update": "clickedNode && datum.id === clickedNode.id ? null : datum"
+        }
+      ]
+    }
+  ],
+
+  "data": [
+    {
+      "name": "raw",
+      "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/menu_clean.csv",
+      "format": {"type": "csv"}
+    },
+    {
+      "name": "filtered",
+      "source": "raw",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "selectedCategory == 'All' ? true : datum.id == 'Menu' || datum.parent == 'Menu' || datum.id == selectedCategory || datum.parent == selectedCategory"
+        },
+        {
+          "type": "stratify",
+          "key": "id",
+          "parentKey": "parent"
+        },
+        {
+          "type": "partition",
+          "field": "Calories",
+          "size": [{"signal": "2 * PI"}, {"signal": "width / 2"}],
+          "as": ["startAngle", "innerRadius", "endAngle", "outerRadius", "depth", "children"]
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "domain": {"data": "filtered", "field": "depth"},
+      "range": {"scheme": "tableau20"}
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "arc",
+      "from": {"data": "filtered"},
+      "encode": {
+        "enter": {
+          "x": {"signal": "width / 2"},
+          "y": {"signal": "height / 2"},
+          "stroke": {"value": "white"},
+          "strokeWidth": {"value": 0.5},
+          "tooltip": {
+            "signal": "datum.children ? datum.id : datum.id"
+          }
+        },
+        "update": {
+          "startAngle": {"field": "startAngle"},
+          "endAngle": {"field": "endAngle"},
+          "innerRadius": {"field": "innerRadius"},
+          "outerRadius": {"field": "outerRadius"},
+          "padAngle": {"value": 0.01},
+          "fill": {
+            "scale": "color",
+            "field": "depth",
+            "condition": {
+              "test": "clickedNode != null && (datum === clickedNode || datum.parent === clickedNode.id)",
+              "value": "orange"
+            }
+          },
+          "fillOpacity": {
+            "signal": "clickedNode ? (datum === clickedNode || datum.parent === clickedNode.id ? 1 : 0.3) : 1"
+          }
+        }
+      }
+    }
+  ],
+
+  "legends": [
+    {
+      "fill": "color",
+      "title": "Hierarchy Depth",
+      "orient": "right",
+      "encode": {
+        "symbols": {"update": {"stroke": {"value": "transparent"}}}
+      }
+    }
+  ]
+}

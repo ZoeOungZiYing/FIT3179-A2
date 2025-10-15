@@ -1,0 +1,113 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 1040,
+  "height": 600,
+  "padding": { "top": 10, "bottom": 10 },
+  "title": {
+    "text": "Malaysia Population & McDonald's Outlets",
+    "anchor": "middle",
+    "fontSize": 20,
+    "fontWeight": "bold",
+    "offset": 10
+  },
+  "projection": {
+    "type": "mercator",
+    "center": [109.5, 5],
+    "scale": 2900
+  },
+  "layer": [
+    {
+      "data": { "sphere": true },
+      "mark": { "type": "geoshape", "fill": "#d0e5f3" }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/js/malaysia_states.json",
+        "format": { "type": "topojson", "feature": "ne_50m_admin_0_countries" }
+      },
+      "mark": { "type": "geoshape", "fill": "#f2f2f2", "stroke": "#999999", "strokeWidth": 0.5 }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/js/malaysia_states.json",
+        "format": { "type": "topojson", "feature": "ne_10m_admin_1_states_provinces" }
+      },
+      "transform": [
+        {
+          "lookup": "properties.name",
+          "from": {
+            "data": { "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_population_clean.csv" },
+            "key": "state",
+            "fields": ["Total_Population"]
+          }
+        }
+      ],
+      "params": [
+        {
+          "name": "hoverState",
+          "select": { "type": "point", "on": "mouseover", "fields": ["properties.name"] }
+        }
+      ],
+      "mark": { "type": "geoshape", "stroke": "black", "strokeWidth": 1 },
+      "encoding": {
+        "color": {
+          "condition": {
+            "param": "hoverState",
+            "empty": false,
+            "value": "#a6cee3"  
+          },
+          "field": "Total_Population",
+          "type": "quantitative",
+          "scale": { "scheme": "blues" },
+          "title": "Total Population ('000)"
+        },
+        "tooltip": [
+          { "field": "properties.name", "title": "State" },
+          { "field": "Total_Population", "title": "Population ('000)" }
+        ]
+      }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/js/malaysia_states.json",
+        "format": { "type": "topojson", "feature": "ne_50m_graticules_5" }
+      },
+      "mark": { "type": "geoshape", "stroke": "white", "strokeWidth": 0.5, "fill": null }
+    },
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/mcd_locations_in_malaysia.csv"
+      },
+      "params": [
+        {
+          "name": "hoverCircle",
+          "select": { "type": "point", "on": "mouseover", "fields": ["State"] }
+        }
+      ],
+      "mark": { "type": "circle", "color": "#FF7F0E", "stroke": "black"},
+      "encoding": {
+        "longitude": { "field": "Longitude", "type": "quantitative" },
+        "latitude": { "field": "Latitude", "type": "quantitative" },
+        "size": {
+          "field": "Number of Locations",
+          "type": "quantitative",
+          "scale": { "range": [200, 3000] },
+          "title": "Number of Outlets"
+        },
+        "strokeWidth": {
+          "condition": { "param": "hoverCircle", "value": 1 },
+          "value": 0.5
+        },
+        "opacity": {
+          "condition": { "param": "hoverCircle", "value": 0.75 },
+          "value": 0.5
+        },
+        "tooltip": [
+          { "field": "State", "type": "nominal", "title": "State" },
+          { "field": "Number of Locations", "type": "quantitative", "title": "Number of Outlets" }
+        ]
+      }
+    }
+  ],
+  "config": { "view": { "stroke": "transparent" } }
+}

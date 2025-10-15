@@ -1,0 +1,96 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "description": "Interactive Pie/Donut Chart with working legend",
+  "width": 400,
+  "height": 400,
+  "padding": 10,
+
+  "signals": [
+    { "name": "selectedItem", "value": " " },
+    { "name": "startAngle", "value": 0, "bind": { "input": "range", "min": 0, "max": 6.29, "step": 0.01 } },
+    { "name": "endAngle", "value": 6.29, "bind": { "input": "range", "min": 0, "max": 6.29, "step": 0.01 } },
+    { "name": "padAngle", "value": 0.02, "bind": { "input": "range", "min": 0, "max": 0.1, "step": 0.01 } },
+    { "name": "innerRadius", "value": 60, "bind": { "input": "range", "min": 0, "max": 150, "step": 1 } },
+    { "name": "cornerRadius", "value": 4, "bind": { "input": "range", "min": 0, "max": 10, "step": 0.5 } },
+    { "name": "sortSlices", "value": false, "bind": { "input": "checkbox" } }
+  ],
+
+  "data": [
+    { "name": "menu", "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/menu_clean.csv", "format": { "type": "csv" } },
+    {
+      "name": "filtered",
+      "source": "menu",
+      "transform": [
+        { "type": "filter", "expr": "(datum.id === selectedItem && !isNaN(datum.Calories)) || (datum.parent === selectedItem && !isNaN(datum.Calories))" }
+      ]
+    },
+    {
+      "name": "aggregated",
+      "source": "filtered",
+      "transform": [
+        { "type": "aggregate", "ops": ["sum","sum","sum","sum"], "fields": ["Calories","Total_Fat","Sugars","Protein"], "as": ["Calories","Total_Fat","Sugars","Protein"] },
+        { "type": "fold", "fields": ["Calories","Total_Fat","Sugars","Protein"], "as": ["nutrient","value"] },
+        { "type": "formula", "as": "nutrientLabel", "expr": "datum.nutrient==='Total_Fat'?'Total Fat':datum.nutrient" }
+      ]
+    },
+    {
+      "name": "pie",
+      "source": "aggregated",
+      "transform": [
+        { "type": "pie", "field": "value", "startAngle": { "signal": "startAngle" }, "endAngle": { "signal": "endAngle" }, "sort": { "signal": "sortSlices" } }
+      ]
+    }
+  ],
+
+  "scales": [
+    { "name": "nutrientColor", "type": "ordinal", "domain": ["Calories","Total Fat","Sugars","Protein"], "range": ["#FF6B6B","#FFD93D","#4D96FF","#6BCB77"] }
+  ],
+
+  "legends": [
+    { "fill": "nutrientColor", "title": "Nutrients", "orient": "right","padding": 20,
+      "encode": {
+        "symbols": { "update": { "stroke": { "value": "transparent" }, "size": { "value": 100 } } },
+        "labels": { "update": { "fontSize": { "value": 14 }, "fill": { "value": "#333" } } },
+        "title": { "update": { "fontSize": { "value": 16 }, "fontWeight": { "value": "bold" }, "fill": { "value": "#333" } } }
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": { "signal": "width / 2" },
+          "y": { "value": 25 },
+          "text": { "value": "Select an item from the sunburst to explore its nutrients" },
+          "align": { "value": "center" },
+          "baseline": { "value": "middle" },
+          "fontSize": { "value": 16 },
+          "fontWeight": { "value": "bold" },
+          "fill": { "value": "#333" }
+        }
+      }
+    },
+    {
+      "type": "arc",
+      "from": { "data": "pie" },
+      "encode": {
+        "enter": {
+          "x": { "signal": "width/2" },
+          "y": { "signal": "height/2" },
+          "fill": { "scale": "nutrientColor", "field": "nutrientLabel" },
+          "tooltip": { "signal": "datum.nutrientLabel + ': ' + format(datum.value, '.1f')" }
+        },
+        "update": {
+          "startAngle": { "field": "startAngle" },
+          "endAngle": { "field": "endAngle" },
+          "innerRadius": { "signal": "innerRadius" },
+          "outerRadius": { "value": 150 },
+          "cornerRadius": { "signal": "cornerRadius" },
+          "padAngle": { "signal": "padAngle" }
+        }
+      }
+    }
+  ]
+}

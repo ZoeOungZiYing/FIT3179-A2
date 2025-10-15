@@ -1,0 +1,144 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Bubble chart: Tourism arrivals vs McDonald's outlet count by state, categorized into High/Medium/Low tourism",
+  "width": 550,
+  "height": 480,
+  "padding": { "top": 20, "bottom": 10 },
+  "params": [
+    {
+      "name": "categoryFilter",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": ["All", "<5M", "5M-15M", ">15M"],
+        "name": "Filter by Tourism Category: "
+      }
+    }
+  ],
+  "data": { "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-HW10/main/data/tourism_outlets.csv" },
+  "transform": [
+    {
+      "calculate": "datum.tourism_arrivals_2022 > 15000000 ? '>15M' : (datum.tourism_arrivals_2022 > 5000000 ? '5M-15M' : '<5M')",
+      "as": "TourismCategory"
+    }
+  ],
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "categoryFilter == 'All' ? true : datum.TourismCategory == categoryFilter"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "opacity": 0.8,
+        "stroke": "black",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "x": {
+          "field": "tourism_arrivals_2022",
+          "type": "quantitative",
+          "title": "Tourism Arrivals (Millions)",
+          "axis": { "format": "~s" }
+          
+        },
+        "y": {
+          "field": "outlet_count",
+          "type": "quantitative",
+          "title": "Outlet Count"
+        },
+        "size": {
+          "field": "outlet_count",
+          "type": "quantitative",
+          "title": "Outlet Count",
+          "scale": { "range": [100, 2000] }
+        },
+        "color": {
+          "field": "TourismCategory",
+          "type": "nominal",
+          "title": "Tourism Category",
+          "scale": {
+            "domain": ["<5M", "5M-15M", ">15M"],
+            "range": ["#8da0cb", "#66c2a5", "#fc8d62"]
+          },
+          "legend": {
+            "orient": "right",
+            "offset": 30,
+            "padding": 8,
+            "titleFontSize": 14,
+            "labelFontSize": 12
+          }
+        },
+        "tooltip": [
+          { "field": "state", "type": "nominal", "title": "State" },
+          {
+            "field": "tourism_arrivals_2022",
+            "type": "quantitative",
+            "title": "Tourism Arrivals",
+            "format": ","
+          },
+          { "field": "outlet_count", "type": "quantitative", "title": "Outlet Count" },
+          { "field": "TourismCategory", "type": "nominal", "title": "Tourism Category" }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [{ "op": "mean", "field": "outlet_count", "as": "avg_outlet" }]
+        }
+      ],
+      "layer": [
+        {
+          "mark": {
+            "type": "rule",
+            "color": "black",
+            "strokeDash": [4, 4],
+            "size": 2
+          },
+          "encoding": {
+            "y": { "field": "avg_outlet", "type": "quantitative" },
+            "tooltip": [
+              {
+                "field": "avg_outlet",
+                "type": "quantitative",
+                "title": "Overall Average Outlet Count"
+              }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 5,
+            "dy": -5,
+            "fontWeight": "bold"
+          },
+          "encoding": {
+            "y": { "field": "avg_outlet", "type": "quantitative" },
+            "text": { "value": "Average outlet count" }
+          }
+        }
+      ]
+    }
+  ],
+  "title": {
+    "text": "",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "anchor": "middle",
+    "offset": 10
+  },
+  "config": {
+    "axis": { "labelFontSize": 12, "titleFontSize": 14 },
+    "legend": {
+      "labelFontSize": 12,
+      "titleFontSize": 14,
+      "offset": 20,
+      "padding": 10
+    },
+    "view": { "stroke": "transparent" }
+  }
+}

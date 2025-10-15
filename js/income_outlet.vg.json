@@ -1,0 +1,69 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Scatter plot of Median Income vs McDonald's Outlet Density by Malaysian state with unique colors per state",
+  "width": 500,
+  "height": 550,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv"
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "circle",
+        "tooltip": true,
+        "size": 100,
+        "opacity": 0.8
+      },
+      "encoding": {
+        "x": {
+          "field": "MedianIncome",
+          "type": "quantitative",
+          "title": "Median Income (MYR)"
+        },
+        "y": {
+          "field": "OutletDensity",
+          "type": "quantitative",
+          "title": "McDonald's Outlet Density (per 100k)"
+        },
+        "color": {
+          "field": "state",
+          "type": "nominal",
+          "title": "State",
+          "legend": {
+            "orient": "right",
+            "labelFontSize": 12,
+            "titleFontSize": 13
+          }
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "MedianIncome", "title": "Median Income (MYR)" },
+          {
+            "field": "OutletDensity",
+            "title": "Outlet Density (per 100k)",
+            "format": ".3f"
+          },
+          { "field": "Population", "title": "Population" }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "line", "color": "orange", "size": 2 },
+      "transform": [{ "regression": "OutletDensity", "on": "MedianIncome" }],
+      "encoding": {
+        "x": { "field": "MedianIncome", "type": "quantitative" },
+        "y": { "field": "OutletDensity", "type": "quantitative" }
+      }
+    }
+  ],
+  "title": {
+    "text": "Median Income vs McDonald's Outlet Density by State (2022)",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "anchor": "start"
+  },
+  "config": {
+    "axis": { "labelFontSize": 12, "titleFontSize": 13 },
+    "view": { "stroke": "transparent" }
+  }
+}

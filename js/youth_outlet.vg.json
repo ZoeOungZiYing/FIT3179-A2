@@ -1,0 +1,74 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Butterfly chart comparing Relative Youth Level and McDonald's Outlet Density by state (2022).",
+  "width": 550,
+  "height": 530,
+  "data": {
+    "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/youth_outlet_summary.csv"
+  },
+  "transform": [
+    {
+      "fold": ["NormalizedYouth", "OutletDensity"],
+      "as": ["Metric", "Value"]
+    },
+    {
+      "calculate": "datum.Metric == 'NormalizedYouth' ? -datum.Value : datum.Value",
+      "as": "SignedValue"
+    }
+  ],
+  "mark": "bar",
+  "encoding": {
+    "y": {
+      "field": "state",
+      "type": "nominal",
+      "title": "Malaysia State",
+      "sort": {
+        "op": "max",
+        "field": "NormalizedYouth",
+        "order": "ascending"
+      }
+    },
+    "x": {
+      "field": "SignedValue",
+      "type": "quantitative",
+      "axis": {
+        "title": "Relative Youth Level  <->  McDonald's Outlet Density (per 100,000 people)",
+        "grid": false
+      }
+    },
+    "color": {
+      "field": "Metric",
+      "type": "nominal",
+      "title": null,
+      "scale": {
+        "domain": ["NormalizedYouth", "OutletDensity"],
+        "range": ["#fdb462", "#80b1d3"]
+      },
+      "legend": {
+        "labelExpr": "datum.value == 'NormalizedYouth' ? 'Relative Youth Level' : 'McDonald\\'s Outlet Density (per 100k)'",
+        "orient": "bottom",
+        "columns": 2,
+        "labelFontSize": 12,
+        "titleFontSize": 13,
+        "labelLimit": 200,
+        "offset": 10
+      }
+    },
+    "tooltip": [
+      { "field": "state", "title": "State" },
+      { "field": "Metric", "title": "Metric" },
+      { "field": "Value", "title": "Value", "format": ".2f" }
+    ]
+  },
+  "title": {
+    "text": "Comparing Relative Youth Level and McDonald's Outlet Density Across Malaysian States (2022)",
+    "fontSize": 16,
+    "fontWeight": "bold",
+    "anchor": "start"
+  },
+  "config": {
+    "bar": { "size": 10 },
+    "axis": { "labelFontSize": 12, "titleFontSize": 13 },
+    "view": { "stroke": "transparent" }
+  }
+}

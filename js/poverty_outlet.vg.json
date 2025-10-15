@@ -1,0 +1,82 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Grouped bar chart with manual legend (normalized values).",
+  "width": 1130,
+  "height": 450,
+  "data": { "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv" },
+  "encoding": {
+    "x": {
+      "field": "state",
+      "type": "nominal",
+      "title": "State",
+      "sort": {
+        "field": "OutletDensity",
+        "op": "max",
+        "order": "ascending"
+      }
+    }
+  },
+  "layer": [
+    {
+      "mark": { "type": "bar", "xOffset": -10, "size": 20, "color": "#80b1d3" },
+      "encoding": {
+        "y": {
+          "field": "OutletDensity",
+          "type": "quantitative",
+          "title": "Value"
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          {
+            "field": "OutletDensity",
+            "title": "Outlet Density (per 100k)",
+            "format": ".3f"
+          }
+        ]
+      }
+    },
+    {
+      "mark": { "type": "bar", "xOffset": 10, "size": 20, "color": "#fdb462" },
+      "encoding": {
+        "y": {
+          "field": "NormalizedPovertyRate",
+          "type": "quantitative",
+          "title": null
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          {
+            "field": "NormalizedPovertyRate",
+            "title": "Relative Poverty Level"
+          }
+        ]
+      }
+    },
+    {
+      "data": {
+        "values": [
+          { "Metric": "Outlet Density (per 100k)", "color": "#80b1d3" },
+          { "Metric": "Relative Poverty Level", "color": "#fdb462" }
+        ]
+      },
+      "mark": "bar",
+      "encoding": {
+        "x": { "value": 0 },
+        "y": { "value": 0 },
+        "color": {
+          "field": "Metric",
+          "type": "nominal",
+          "scale": { "range": ["#80b1d3", "#fdb462"] },
+          "legend": {
+            "title": "Metric",
+            "orient": "bottom",
+            "labelFontSize": 12,
+            "titleFontSize": 13,
+            "symbolType": "square"
+          }
+        }
+      }
+    }
+  ],
+  "title": "Comparison of McDonald's Outlet Density and Relative Poverty Level by State (2022)"
+}
