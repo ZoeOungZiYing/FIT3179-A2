@@ -1,329 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Foodprint Malaysia Dashboard</title>
 
-    <!-- Vega & Vega-Lite -->
-    <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Foodprint Malaysia Dashboard</title>
 
-    <!-- External CSS -->
-    <link rel="stylesheet" href="css/style.css">
-  </head>
+  <!-- Splide js.css-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" />
 
-  <body>
-    <div class="home-page">
-      <div class="home-page-navigation" style="display: none;">
-        <div class="navigation-item">
-          <div class="icon">icon</div>
-          <div class="label">
-            Testing 123
-          </div>
-        </div>
+  <!-- Vega & Vega-Lite -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
 
-        <div class="navigation-item">
-          <div class="icon">icon</div>
-          <div class="label">
-            Testing 123
-          </div>
-        </div>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
 
-        <div class="navigation-item">
-          <div class="icon">icon</div>
-          <div class="label">
-            Testing 123
-          </div>
-        </div>
+<body>
 
-        <div class="navigation-item">
-          <div class="icon">icon</div>
-          <div class="label">
-            Testing 123
-          </div>        
-        </div>
+
+  <div class="home-page">
+    <div class="home-page-container">
+      <!-- Page Header -->
+      <div class="home-page-header">
+        <div class="home-page-header-background"></div>
+        <h1 class="page-title">
+          Foodprint Malaysia:<br>
+          Mapping McDonald's and Malaysia's Fast-Food Culture (2022)
+        </h1>
+        <p class="subtitle">
+          The distribution of McDonald's outlets across Malaysian states reflects urbanisation, population density, and
+          lifestyle patterns.
+          Beyond outlet counts, nutritional data reveals the health side of Malaysia's fast-food culture - showing how
+          diet and lifestyle intersect across regions.
+        </p>
       </div>
-      <div class="home-page-container">
-        <!-- Page Header -->
-        <div class="home-page-header">
-          <div class="home-page-header-background"></div>
-          <h1 class="page-title">
-            Foodprint Malaysia:<br>
-             Mapping McDonald's and Malaysia's Fast-Food Culture (2022)
-          </h1>
-          <p class="subtitle">
-             The distribution of McDonald's outlets across Malaysian states reflects urbanisation, population density, and lifestyle patterns. 
-            Beyond outlet counts, nutritional data reveals the health side of Malaysia's fast-food culture - showing how diet and lifestyle intersect across regions.
-          </p>
-          <div class="subtitle-container">
-            <!-- <img src="images/left_icon.png" alt="Left icon" class="subtitle-icon"> -->
-            <!-- <img src="images/right_icon.png" alt="Right icon" class="subtitle-icon"> -->
+
+      <!-- Timeline Section -->
+      <section class="card timeline-section" id="history-section">
+        <h2 class="card-title">McDonald's Malaysia Corporate Milestones</h2>
+        <div class="timeline-container"></div>
+      </section>
+
+      <!-- Map Section -->
+      <section class="card graph-section">
+        <h3 class="graph-title">Population and McDonald's Outlets in Malaysian States (2022)</h3>
+
+        <div class="graph-container flex-row">
+          <div id="symbol_map" class="chart"></div>
+
+          <div class="graph-description graph-population">
+            <p class="graph-description-title">Outlet Distribution Insights</p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Urban concentration:</span>
+              Selangor and Kuala Lumpur lead with dense networks driven by
+              <span class="highlight-keyword bold">high income</span> and
+              <span class="highlight-keyword bold">population</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Industrial advantage:</span>
+              Johor follows due to strong
+              <span class="highlight-keyword bold">industrial activity</span> and
+              <span class="highlight-keyword bold">cross-border trade</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Tourism support:</span>
+              Penang and Perak maintain moderate presence through
+              <span class="highlight-keyword bold">tourism</span> and
+              <span class="highlight-keyword bold">mid-sized cities</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Suburban growth:</span>
+              Negeri Sembilan and Pahang expand as
+              <span class="highlight-keyword bold">suburban demand</span> rises beyond Klang Valley.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Infrastructure gaps:</span>
+              Northern and eastern states remain slower due to
+              <span class="highlight-keyword bold">smaller markets</span> and
+              <span class="highlight-keyword bold">limited access</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Economic disparity:</span>
+              Minimal coverage in Labuan, Perlis and Putrajaya reflects
+              <span class="highlight-keyword bold">uneven national development</span>.
+            </p>
           </div>
         </div>
+      </section>
 
-        <!-- Timeline Section -->
-        <section class="card timeline-section" id="history-section">
-          <h2 class="card-title">McDonald's Malaysia Corporate Milestones</h2>
-          <div class="timeline-container">
-            <!-- Timeline events injected via JS -->
+
+
+
+      <!-- Tourism Outlet Chart -->
+      <section class="card graph-section">
+        <h3 class="graph-title">Tourism Arrivals vs McDonald's Outlet Count by State (2022)</h3>
+
+        <div class="graph-container flex-row">
+          <div class="graph-description border-left">
+
+            <p class="graph-description-title">Tourism and Outlet Patterns</p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Urban demand:</span>
+              Selangor and Kuala Lumpur lead, showing how
+              <span class="highlight-keyword bold">population</span> and
+              <span class="highlight-keyword bold">income</span> drive strong franchise presence.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Tourism influence:</span>
+              Johor, Pahang, and Penang sustain balanced outlet counts
+              through steady <span class="highlight-keyword bold">visitor flow</span>
+              and higher <span class="highlight-keyword bold">spending power</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Market limitation:</span>
+              Perlis, Labuan, and Putrajaya record fewer outlets due to
+              smaller <span class="highlight-keyword bold">markets</span> and
+              lower <span class="highlight-keyword bold">tourist volume</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Investment drivers:</span>
+              Overall distribution reflects
+              <span class="highlight-keyword bold">accessibility</span> and
+              <span class="highlight-keyword bold">tourism-driven demand</span>
+              as key factors shaping McDonald's expansion.
+            </p>
+
           </div>
-        </section>
 
-        <!-- Map Section -->
-        <section class="card graph-section">
-          <h3 class="graph-title">Population and McDonald's Outlets in Malaysian States (2022)</h3>
-          <div class="graph-description column-2">
+          <div id="tourism_outlet_chart" class="chart"></div>
+        </div>
+      </section>
 
-            <p>The 2022 data highlights clear regional disparities in <span class="highlight bold">McDonald's</span> outlet distribution across Malaysia. 
-    Selangor leads with 97 outlets, followed by Kuala Lumpur (45) and Johor (40), showcasing the concentration of fast-food chains in areas with strong economies, urban growth, and high population density. 
-    These regions also serve as commercial and logistic hubs that sustain high daily demand for quick-service dining.</p>
 
-    <p>States such as Pulau Pinang (23), Perak (18), Pahang (17), Negeri Sembilan (16), and Melaka (12) record moderate outlet counts, reflecting a balanced mix of urbanization, tourism, and local consumer spending power. 
-    These areas continue to benefit from steady economic activity and expanding suburban communities that support franchise growth outside the Klang Valley core.</p>
 
-    <p>Meanwhile, northern and eastern states like Kedah (10), Terengganu (5), and Kelantan (6) display slower outlet expansion. 
-    Their lower density of outlets suggests smaller urban markets, fewer commercial hubs, and less exposure to high-volume retail zones compared to the west coast states. 
-    This highlights how population distribution and income level play key roles in shaping fast-food accessibility.</p>
+      <!-- Youth Population vs Outlet -->
+      <section class="card graph-section">
+        <h3 class="graph-title">Relative Youth Level vs Outlet Count (2022)</h3>
 
-    <p>In East Malaysia, Sabah (15) and Sarawak (13) show significantly fewer outlets relative to their population size, while Labuan (1), Perlis (1), and Putrajaya (4) have minimal coverage. 
-    These patterns underline ongoing regional inequalities in infrastructure and urban concentration, where McDonald's presence aligns closely with economic development and accessibility across Malaysian states.</p>
-
-          </div>
-          <div id="symbol_map" class="chart"></div>
-        </section>
-
-        <!-- Tourism Outlet Chart -->
-        <section class="card graph-section">
-          <h3 class="graph-title">Tourism Arrivals vs McDonald's Outlet Count by State (2022)</h3>
-          <div class="tourism-layout">
-              <div id="tourism_outlet_chart" class="chart"></div>
+        <div class="graph-container flex-row">
+          <div id="butterfly_chart" class="chart"></div>
 
           <div class="graph-description">
-            <p><span class="highlight bold">Understanding Tourism and McDonald's Outlets (2022):</span> States with high tourism arrivals generally have more McDonald's outlets, reflecting demand from both locals and visitors. Selangor (21.99M arrivals, 97 outlets) and Kuala Lumpur (16.91M, 45 outlets) lead the way as major urban and tourist hubs, supported by dense populations and continuous tourist inflows.</p>
+            <p class="graph-description-title">Youth Demographics and Market Reach</p>
 
-            <p>Moderate tourism states such as Johor (12.38M, 40 outlets), Pahang (13.19M, 17 outlets), and Pulau Pinang (10.00M, 23 outlets) show proportional outlet counts relative to visitor numbers. These states balance both domestic travel and economic activity, making them sustainable markets for fast food growth.</p>
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Youth concentration:</span>
+              High-youth states show relatively few outlets, indicating that
+              <span class="highlight-keyword bold">youth percentage alone</span>
+              does not ensure market penetration.
+            </p>
 
-            <p>Low-tourism regions like Perlis (1.67M, 1 outlet), Labuan (0.24M, 1 outlet), and Putrajaya (1.31M, 4 outlets) have limited McDonald's presence, highlighting how low visitor numbers and smaller local populations restrict commercial expansion opportunities.</p>
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Urban influence:</span>
+              McDonald's expansion aligns more with
+              <span class="highlight-keyword bold">urbanization</span>
+              and <span class="highlight-keyword bold">infrastructure quality</span>
+              than youth ratio.
+            </p>
 
-            <p><span class="highlight bold">Overall:</span> Higher tourism typically aligns with more McDonald's outlets, but population density, accessibility, and urban development also play key roles. States with strong transport networks and city centers tend to attract more investment and fast-food chains.</p>
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Regional leaders:</span>
+              Selangor, Johor, Penang, and Melaka lead in outlet density,
+              supported by strong <span class="highlight-keyword bold">urban development</span>
+              and stable demand.
+            </p>
 
-            <p><span class="highlight bold">Tourism-driven demand:</span> Popular destinations like Pahang and Pulau Pinang benefit from seasonal surges in visitors, which create steady demand for convenient, recognizable food options like McDonald's. This emphasizes the chain's adaptability to tourism-oriented economies.</p>
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Youth-outlet mismatch:</span>
+              Some states with large youth populations still lack outlets
+              due to weaker <span class="highlight-keyword bold">economies</span>
+              and limited <span class="highlight-keyword bold">accessibility</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Balanced growth:</span>
+              Selangor and Melaka effectively combine
+              <span class="highlight-keyword bold">youth potential</span>
+              with franchise presence.
+            </p>
           </div>
-        </section>
-
-        <!-- Youth Population vs Outlet -->
-        <section class="card graph-section">
-          <h3 class="graph-title">Relative Youth Level vs Outlet Count (2022)</h3>
-
-          <div class="flex-row">
-
-            <!-- Right: Description / Insights -->
-            <div class="graph-description flex-1" style="padding-left: 10px;">
-              <p>The butterfly chart comparing <span class="highlight bold">Relative Youth Level</span> and <span class="highlight bold">McDonald's Outlet Density</span> highlights interesting patterns across Malaysian states in 2022. States with high youth percentages, such as <strong>Sabah (31.2%)</strong> and <strong>Perlis (31.8%)</strong>, show relatively low outlet densities (0.22–0.17 outlets per 100,000 people), suggesting that a large youth population alone does not guarantee higher fast food accessibility. This highlights regional disparities, particularly between East and West Malaysia.</p>
-
-              <p>Urbanization and economic activity appear to be stronger drivers of McDonald's presence. States like <strong>Selangor</strong>, despite a lower youth percentage (23.5%), have the highest number of outlets (97) and the highest density (0.69 per 100k), reflecting its status as a highly urbanized and commercially developed state. Similarly, <strong>Johor, Pulau Pinang, and Melaka</strong> maintain moderate youth populations but comparatively high outlet densities, showing that tourism and economic hubs attract more fast food outlets.</p>
-
-              <p>The <span class="highlight bold">Normalized Youth</span> metric further emphasizes mismatches between youth population and outlet availability. In states such as <strong>Kelantan, Terengganu, and Sabah</strong>, youth levels are high but outlet densities remain low, indicating potential untapped markets or barriers to commercial expansion. Conversely, states like Selangor and Melaka exhibit a more balanced relationship, where youth presence and McDonald's accessibility align more closely.</p>
-            </div>
-              <div id="butterfly_chart" class="chart flex-2"></div>
-
-        </section>
+        </div>
+      </section>
 
 
 
-       <!-- Poverty vs Outlet -->
-<section class="card graph-section">
-  <h3 class="graph-title">Relative Poverty Level vs Outlet Count (2022)</h3>
+      <!-- Poverty vs Outlet -->
+      <section class="card graph-section">
+        <h3 class="graph-title">Relative Poverty Level vs Outlet Count (2022)</h3>
 
-  <div class="graph-description column-2">
-    <p>The 2022 data shows a clear inverse relationship between <span class="highlight bold">McDonald's</span> outlet density and relative poverty levels across Malaysian states. Selangor, Pulau Pinang, and Negeri Sembilan have the highest outlet densities, coupled with low normalized poverty rates, highlighting how fast-food chains tend to concentrate in economically prosperous and urbanized regions.</p>
+        <div class="graph-description column-2">
 
-    <p>States like Sabah, Kelantan, and Terengganu have lower outlet densities and higher relative poverty levels. Sabah, for instance, exhibits the highest normalized poverty rate (1.0) yet has only 15 outlets relative to its population, reflecting regional disparities in commercial access and economic development.</p>
+          <p class="graph-description-title">Economic Disparities and Outlet Distribution</p>
 
-    <p>Mid-tier states such as Pahang, Perak, and Kedah show moderate values in both metrics, suggesting balanced economic conditions and commercial activity. These states represent potential areas for business expansion while also indicating varying levels of socioeconomic development across Malaysia.</p>
+          <p class="graph-description-text">
+            <span class="highlight-label bold">Wealth concentration:</span>
+            McDonald's outlet density decreases as
+            <span class="highlight-keyword bold">poverty levels</span> rise.
+            Outlets cluster in <span class="highlight-keyword bold">wealthy</span>, urbanized regions, with Selangor and
+            Penang leading.
+          </p>
 
-    <p>Overall, the chart highlights how states with higher economic well-being and urbanization tend to have greater McDonald's outlet density, while regions with higher poverty levels have fewer outlets. This pattern suggests that outlet distribution is influenced by factors such as local purchasing power, population density, and urban infrastructure, reflecting the economic and demographic conditions across Malaysian states.</p>
+          <p class="graph-description-text">
+            <span class="highlight-label bold">High-poverty states:</span>
+            Sabah, Kelantan, and Terengganu show limited outlets, highlighting how
+            <span class="highlight-keyword bold">economic inequality</span> restricts expansion.
+            Infrastructure gaps further limit growth in these regions.
+          </p>
+
+          <p class="graph-description-text">
+            <span class="highlight-label bold">Mid-tier balance:</span>
+            Pahang, Perak, and Kedah balance
+            <span class="highlight-keyword bold">poverty</span> and outlet density.
+            These regions see stable but limited growth, indicating potential for future expansion in balanced markets.
+          </p>
+
+          <p class="graph-description-text">
+            <span class="highlight-label bold">Growth potential:</span>
+            States with moderate income and improving infrastructure show opportunity for
+            <span class="highlight-keyword bold">future McDonald's expansion</span>, as economic conditions and
+            accessibility improve.
+          </p>
+
+        </div>
+
+        <div id="grouped_bar_chart" class="chart"></div>
+      </section>
+
+
+      <!-- Median Income vs Outlet -->
+      <section class="card graph-section">
+        <h3 class="graph-title">Median Income vs McDonald's Outlet Density (2022)</h3>
+
+        <div class="flex-row">
+          <div class="graph-description">
+            <p class="graph-description-title">Income Levels and Market Presence</p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Income correlation:</span>
+              Higher-income states show denser McDonald's networks,
+              with Selangor and Penang leading due to strong
+              <span class="highlight-keyword bold">economic activity</span>.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Population influence:</span>
+              Larger populations support steady expansion - Johor maintains moderate density,
+              while smaller states like Perlis lag behind.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Beyond income:</span>
+              <span class="highlight-keyword bold">Urbanization</span> and
+              <span class="highlight-keyword bold">tourism</span> enhance outlet concentration beyond income levels
+              alone.
+            </p>
+
+            <p class="graph-description-text">
+              <span class="highlight-label bold">Economic divide:</span>
+              Wealthier, urban states attract stronger McDonald's presence, while
+              <span class="highlight-keyword bold">low-income regions</span> remain underrepresented.
+            </p>
+          </div>
+
+          <div id="income_outlet_chart" class="chart flex-2"></div>
+        </div>
+      </section>
+
+
+
+
+      <!-- Menu Nutrition Section -->
+      <section class="card graph-section" id="menu-nutrition-section">
+        <h2 class="card-title">McDonald's Menu Nutrition Composition</h2>
+        <p>Explore the breakdown of Calories, Fat, Sugars, and Protein across menu categories.</p>
+        <div class="chart-row">
+          <div id="sunburst" class="chart chart-large"></div>
+          <div id="pie_chart" class="chart chart-small"></div>
+        </div>
+      </section>
+
+      <!-- Fun Facts Section -->
+      <section class="card fun-fact-section" id="fun-fact-section">
+        <h2 class="card-title">Fun Facts About McDonald's</h2>
+        <div id="fun-facts-slider" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list" id="fun-facts-list"></ul>
+          </div>
+        </div>
+
+
+        <!-- <img id="fun-fact-image" class="fun-fact-image" src="images/funfact.png" alt="Fun Fact Image">
+          <p id="fun-fact-text">.</p> -->
+        <!-- <button id="next-fun-fact">Next</button> -->
+      </section>
+
+      <!-- Footer -->
+      <footer
+        style="text-align:left; padding:20px; font-size:0.9em; color:#555; border-top:1px solid #ddd; margin-top:40px;">
+        <p><strong>Author:</strong> Zoe</p>
+        <p><strong>Date:</strong> 19 October 2025</p>
+        <p><strong>Data Sources:</strong></p>
+        <ul>
+          <li>Dataset 1: McDonald's Locations in Malaysia by State (2022)
+            Source: <a
+              href="https://www.kaggle.com/datasets/christinechiong/mcdonalds-locations-in-malaysia-by-state-in-2022?select=mcd_locations_in_malaysia.csv"
+              target="_blank">Kaggle</a>
+          </li>
+          <li>Dataset 2: Population by State (2022)
+            Source: <a href="https://open.dosm.gov.my/data-catalogue/population_state" target="_blank">DOSM</a>
+          </li>
+          <li>Dataset 3: Household Income and Poverty by State (2022)
+            Source: <a href="https://open.dosm.gov.my/data-catalogue/hies_state" target="_blank">DOSM</a>
+          </li>
+          <li>Dataset 4: Tourism Arrivals by State (2022)
+            Source: <a href="https://open.dosm.gov.my/publications/tourism_2022" target="_blank">DOSM</a>
+          </li>
+          <li>Dataset 5: McDonald's Menu Nutrition Facts
+            Source: <a href="https://www.kaggle.com/datasets/mcdonalds/nutrition-facts" target="_blank">Kaggle</a>
+          </li>
+          <li>Corporate History - McDonald's Malaysia History
+            Source: <a href="https://www.mcdonalds.com.my/company/history" target="_blank">McDonald's Malaysia</a>
+          </li>
+          <li>Fun Facts About McDonald's
+            Source: <a
+              href="https://www.fastfoodclub.com/p/12-unique-facts-about-mcdonalds-you-probably-dont-know/?srsltid=AfmBOoqEboHyOM38Keg9AKIYUW3nxHvjcU6zjq6mXBmVcgf0sNbuyktM"
+              target="_blank">FastFoodClub</a>
+          </li>
+        </ul>
+      </footer>
+    </div>
   </div>
 
-  <div id="grouped_bar_chart" class="chart"></div>
-</section>
+  <!-- Timeline JS -->
+  <script>
+    const historyEvents = [
+      { date: "1982 Apr", text: "McDonald's first restaurant in Malaysia opened at Jalan Bukit Bintang, KL." },
+      { date: "1987 Nov", text: "Ayam Goreng McD was first introduced." },
+      { date: "1988 Dec", text: "McDonald's opened its first Drive-Thru restaurant at Jalan Pahang (Titiwangsa)." },
+      { date: "1990 Feb", text: "Ronald McDonald House Charities Malaysia (RMHC™) was established." },
+      { date: "1993 Jan", text: "McDonald's first franchised restaurant was opened in Sibu." },
+      { date: "1994", text: "The Prosperity Burger was first created and launched in Malaysia." },
+      { date: "1994 Mar", text: "McDonald's Delivery Service was introduced." },
+      { date: "1995 Feb", text: "First Quick Service Restaurant in Malaysia to obtain Halal Certification from JAKIM." },
+      { date: "1999 Jun", text: "RMHC™ opened its first Ronald McDonald House in Malaysia." },
+      { date: "1999 Jul", text: "A new brand promise, 'We're out to make you smile' was introduced." },
+      { date: "2001 Jan", text: "First alliance with an oil company at Mobil, Seremban Highway." },
+      { date: "2002 Jul", text: "New local menu, Bubur Ayam McD™, was launched nationwide." },
+      { date: "2003 Sep", text: "Launch of the global 'I'm lovin' it' campaign." },
+      { date: "2004 Jul", text: "Annual Olympic Day Run introduced." },
+      { date: "2007 Apr", text: "McDonald's celebrates its 25th Anniversary in Malaysia." },
+      { date: "2007 Jun", text: "24-hour service launched at over 70 restaurants nationwide." },
+      { date: "2008", text: "Recognition by Malaysia Book of Records for Largest Participation in Drive-Thru Challenge." },
+      { date: "2012 Jun", text: "First McCafé in Malaysia opened at McDonald's® Kota Damansara." },
+      { date: "2012 Nov", text: "National Breakfast Day held for the first time with over 200,000 Egg McMuffins given away." },
+      { date: "2013", text: "Aon Hewitt Best Employers in Malaysia award received for the third time." },
+      { date: "2014", text: "Gold at the Putra Brand Awards for the 5th year in a row." },
+      { date: "2014", text: "McDonald's now available in every state in Malaysia." },
+      { date: "2015", text: "Lazeez (Chicken Foldover) and Mashwi (Beef Foldover) introduced for Ramadan." },
+      { date: "2016", text: "Cashless facility introduced at McDonald's." },
+      { date: "2016 Jul", text: "McDonald's Delivery Service goes 100% online." },
+      { date: "2016 Dec", text: "Lionhorn Pte Ltd becomes owner of McDonald's Malaysia." },
+      { date: "2017 Apr", text: "McDonald's marks its 35th Anniversary in Malaysia." }
+    ];
 
+    const timelineContainer = document.querySelector('.timeline-container');
 
-<!-- Median Income vs Outlet -->
-<section class="card graph-section">
-  <h3 class="graph-title">Median Income vs McDonald's Outlet Density (2022)</h3>
+    historyEvents.forEach(event => {
+      const eventDiv = document.createElement('div');
+      eventDiv.classList.add('timeline-event');
 
-  <div class="flex-row">
+      const dateSpan = document.createElement('span');
+      dateSpan.classList.add('timeline-date');
+      dateSpan.textContent = event.date;
 
-    <div class="graph-description flex-1" style="padding-left: 10px;">
-      <p>The scatter plot examining <span class="highlight bold">Median Income</span> and <span class="highlight bold">McDonald's Outlet Density</span> reveals a clear positive trend across Malaysian states in 2022. States with higher median incomes, such as <strong>Selangor</strong> and <strong>Pulau Pinang</strong>, also show higher outlet densities (1.37 and 1.32 outlets per 100k respectively), indicating that economic prosperity strongly correlates with fast-food accessibility.</p>
+      const desc = document.createElement('p');
+      desc.textContent = event.text;
 
-      <p>Population size adds another layer of influence. Densely populated states like <strong>Johor</strong> combine both substantial populations and moderate median income (0.99 outlets per 100k), resulting in more outlets compared to smaller states like <strong>Perlis</strong>, where moderate income alone does not translate into higher outlet density.</p>
+      eventDiv.appendChild(dateSpan);
+      eventDiv.appendChild(desc);
 
-      <p>The <span class="highlight bold">regression line</span> plotted on the chart highlights the overall positive relationship between median income and outlet density. States lying above the line, such as <strong>Melaka</strong> and <strong>Negeri Sembilan</strong>, indicate higher outlet density than expected based on income alone, suggesting that factors like urbanization, tourism, or commercial hubs contribute to additional outlets beyond income effects.</p>
-
-      <p>Overall, the chart demonstrates that McDonald's outlet density is influenced by a combination of <span class="highlight bold">income, population, and urban concentration</span>. States that balance these factors tend to have the highest outlet density, while regions with lower income or smaller populations generally maintain fewer outlets per 100,000 people.</p>
-    </div>
-
-    <div id="income_outlet_chart" class="chart flex-2"></div>
-
-  </div>
-</section>
-
-
-        <!-- Menu Nutrition Section -->
-        <section class="card graph-section" id="menu-nutrition-section">
-          <h2 class="card-title">McDonald's Menu Nutrition Composition</h2>
-          <p>Explore the breakdown of Calories, Fat, Sugars, and Protein across menu categories.</p>
-          <div class="chart-row">
-            <div id="sunburst" class="chart chart-large"></div>
-            <div id="pie_chart" class="chart chart-small"></div>
-          </div>
-        </section>
-
-        <!-- Fun Facts Section -->
-        <section class="card fun-fact-section" id="fun-fact-section">
-          <h2 class="card-title">Fun Facts About McDonald's</h2>
-          <div id="fun-fact-container">
-            <img id="fun-fact-image" class="fun-fact-image" src="images/funfact.png" alt="Fun Fact Image">
-            <p id="fun-fact-text">.</p>
-          </div>
-          <button id="next-fun-fact">Next</button>
-        </section>
-
-      </div>
-    </div>
-
-    <div class="home-page">
-
-    </div>
-  </body>
-</html>
-
-<!-- Timeline JS -->
-<script>
-  const historyEvents = [
-    { date: "1982 Apr", text: "McDonald's first restaurant in Malaysia opened at Jalan Bukit Bintang, KL." },
-    { date: "1987 Nov", text: "Ayam Goreng McD was first introduced." },
-    { date: "1988 Dec", text: "McDonald's opened its first Drive-Thru restaurant at Jalan Pahang (Titiwangsa)." },
-    { date: "1990 Feb", text: "Ronald McDonald House Charities Malaysia (RMHC™) was established." },
-    { date: "1993 Jan", text: "McDonald's first franchised restaurant was opened in Sibu." },
-    { date: "1994", text: "The Prosperity Burger was first created and launched in Malaysia." },
-    { date: "1994 Mar", text: "McDonald's Delivery Service was introduced." },
-    { date: "1995 Feb", text: "McDonald's is the first Quick Service Restaurant in Malaysia to obtain the Halal Certification from JAKIM." },
-    { date: "1999 Jun", text: "RMHC™ opened its first Ronald McDonald House in Malaysia." },
-    { date: "1999 Jul", text: "A new brand promise, 'We're out to make you smile' was introduced." },
-    { date: "2001 Jan", text: "First alliance with an oil company at Mobil, Seremban Highway." },
-    { date: "2002 Jul", text: "New local menu, Bubur Ayam McD™, was launched nationwide." },
-    { date: "2003 Sep", text: "Launch of the global 'I'm lovin' it' campaign." },
-    { date: "2004 Jul", text: "Annual Olympic Day Run introduced." },
-    { date: "2007 Apr", text: "McDonald's celebrates its 25th Anniversary in Malaysia." },
-    { date: "2007 Jun", text: "24-hour service launched at over 70 restaurants nationwide." },
-    { date: "2008", text: "Recognition by Malaysia Book of Records for Largest Participation in Drive-Thru Challenge." },
-    { date: "2012 Jun", text: "First McCafé in Malaysia opened at McDonald's® Kota Damansara." },
-    { date: "2012 Nov", text: "National Breakfast Day held for the first time with over 200,000 Egg McMuffins given away." },
-    { date: "2013", text: "Aon Hewitt Best Employers in Malaysia award received for the third time." },
-    { date: "2014", text: "Gold at the Putra Brand Awards for the 5th year in a row." },
-    { date: "2014", text: "McDonald's now available in every state in Malaysia." },
-    { date: "2015", text: "Lazeez (Chicken Foldover) and Mashwi (Beef Foldover) introduced for Ramadan." },
-    { date: "2016", text: "Cashless facility introduced at McDonald's." },
-    { date: "2016 Jul", text: "McDonald's Delivery Service goes 100% online." },
-    { date: "2016 Dec", text: "Lionhorn Pte Ltd becomes owner of McDonald's Malaysia." },
-    { date: "2017 Apr", text: "McDonald's marks its 35th Anniversary in Malaysia." }
-  ];
-
-  const timelineContainer = document.querySelector('.timeline-container');
-
-  historyEvents.forEach(event => {
-    const eventDiv = document.createElement('div');
-    eventDiv.classList.add('timeline-event');
-
-    const dateSpan = document.createElement('span');
-    dateSpan.classList.add('timeline-date');
-    dateSpan.textContent = event.date;
-
-    const desc = document.createElement('p');
-    desc.textContent = event.text;
-
-    eventDiv.appendChild(dateSpan);
-    eventDiv.appendChild(desc);
-
-    timelineContainer.appendChild(eventDiv);
-  });
-
-  function revealTimeline() {
-    const events = document.querySelectorAll('.timeline-event');
-    const windowBottom = window.innerHeight;
-
-    events.forEach(event => {
-      const rect = event.getBoundingClientRect();
-      event.classList.add('visible');
+      timelineContainer.appendChild(eventDiv);
     });
-  }
 
-  // window.addEventListener('scroll', revealTimeline);
-  window.addEventListener('load', revealTimeline);
-</script>
+    let totalWidth = 0;
+    const events = document.querySelectorAll('.timeline-event');
+    events.forEach(e => totalWidth += e.offsetWidth + 60); // gap included
+    timelineContainer.style.setProperty('--timeline-width', totalWidth + 'px');
+  </script>
 
-<!-- Vega Charts JS -->
-<script>
-  let lastLeaf = null;
+  <!-- Vega Charts JS -->
+  <script>
+    let lastLeaf = null;
 
-  // Embed pie chart first
-  vegaEmbed('#pie_chart', 'js/menu_pie.vg.json', {actions: false})
-    .then(result => {
-      window.pieView = result.view;
-      return vegaEmbed('#sunburst', 'js/menu_sunburst.vg.json', {actions: false});
-    })
-    .then(result => {
-      const sunburstView = result.view;
-      sunburstView.addSignalListener('clickedNode', (name, value) => {
-        if (!value) return;
-        if (!value.children || value.children.length === 0) {
-          lastLeaf = value.id;
-          window.pieView.signal('selectedItem', value.id).runAsync();
-        } else if (lastLeaf) {
-          window.pieView.signal('selectedItem', lastLeaf).runAsync();
-        }
-      });
-    })
-    .catch(console.error);
+    vegaEmbed('#pie_chart', 'js/menu_pie.vg.json', { actions: false })
+      .then(result => {
+        window.pieView = result.view;
+        return vegaEmbed('#sunburst', 'js/menu_sunburst.vg.json', { actions: false });
+      })
+      .then(result => {
+        const sunburstView = result.view;
+        sunburstView.addSignalListener('clickedNode', (name, value) => {
+          if (!value) return;
+          if (!value.children || value.children.length === 0) {
+            lastLeaf = value.id;
+            window.pieView.signal('selectedItem', value.id).runAsync();
+          } else if (lastLeaf) {
+            window.pieView.signal('selectedItem', lastLeaf).runAsync();
+          }
+        });
+      })
+      .catch(console.error);
 
-  // Embed other charts
-  vegaEmbed('#symbol_map', "js/mcd_map.vg.json").catch(console.error);
-  vegaEmbed('#butterfly_chart', "js/youth_outlet.vg.json").catch(console.error);
-  vegaEmbed('#tourism_outlet_chart', "js/tourism_outlet.vg.json").catch(console.error);
-  vegaEmbed('#grouped_bar_chart', "js/poverty_outlet.vg.json").catch(console.error);
-  vegaEmbed('#income_outlet_chart', "js/income_outlet.vg.json").catch(console.error);
-</script>
+    vegaEmbed('#symbol_map', "js/mcd_map.vg.json").catch(console.error);
+    vegaEmbed('#butterfly_chart', "js/youth_outlet.vg.json").catch(console.error);
+    vegaEmbed('#tourism_outlet_chart', "js/tourism_outlet.vg.json").catch(console.error);
+    vegaEmbed('#grouped_bar_chart', "js/poverty_outlet.vg.json").catch(console.error);
+    vegaEmbed('#income_outlet_chart', "js/income_outlet.vg.json").catch(console.error);
+  </script>
 
-<!-- Fun Facts JS -->
-<script>
-  const funFacts = [
-    { text: " ", image: "images/funfact.png" },
-    { text: "The Queen of England technically owned a McDonald's in Oxfordshire.", image: "images/funfact1.png" },
-    { text: "The first McDonald's store still exists as a museum in San Bernardino.", image: "images/funfact2.png" },
-    { text: "McDonald's is the top toy contributor worldwide, selling ~1.5 billion toys annually.", image: "images/funfact3.png" },
-    { text: "Ray Kroc, the founder of McDonald's franchise, was friends with Walt Disney.", image: "images/funfact4.png" },
-    { text: "Coca-Cola tastes better at McDonald's due to stainless steel syrup containers.", image: "images/funfact5.png" },
-    { text: "McDonald's is the biggest restaurant chain in the world with ~36,000+ locations.", image: "images/funfact6.png" },
-    { text: "Over 70 million people eat at McDonald's each day worldwide.", image: "images/funfact7.png" },
-    { text: "McDonald's has 13,000+ stores across the US.", image: "images/funfact8.png" },
-    { text: "Some McDonald's locations have different colored arches, like white, turquoise, black, or red.", image: "images/funfact9.png" },
-    { text: "A few McDonald's still use the old single-arch logo.", image: "images/funfact10.png" },
-    { text: "McDonald's stores come in all shapes & sizes, including colonial mansions, UFOs, and airplanes.", image: "images/funfact11.png" },
-    { text: "McDonald's is not the oldest burger chain; White Castle started in 1921.", image: "images/funfact12.png" }
-  ];
+  <!-- Fun Facts JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <script>
+    const funFacts = [
+      // { text: " ", image: "images/funfact.png" },
+      { text: "The Queen of England technically owned a McDonald's in Oxfordshire.", image: "images/funfact1.png" },
+      { text: "The first McDonald's store still exists as a museum in San Bernardino.", image: "images/funfact2.png" },
+      { text: "McDonald's is the top toy contributor worldwide, selling ~1.5 billion toys annually.", image: "images/funfact3.png" },
+      { text: "Ray Kroc, the founder of McDonald's franchise, was friends with Walt Disney.", image: "images/funfact4.png" },
+      { text: "Coca-Cola tastes better at McDonald's due to stainless steel syrup containers.", image: "images/funfact5.png" },
+      { text: "McDonald's is the biggest restaurant chain in the world with ~36,000+ locations.", image: "images/funfact6.png" },
+      { text: "Over 70 million people eat at McDonald's each day worldwide.", image: "images/funfact7.png" },
+      { text: "McDonald's has 13,000+ stores across the US.", image: "images/funfact8.png" },
+      { text: "Some McDonald's locations have different colored arches, like white, turquoise, black, or red.", image: "images/funfact9.png" },
+      { text: "A few McDonald's still use the old single-arch logo.", image: "images/funfact10.png" },
+      { text: "McDonald's stores come in all shapes & sizes, including colonial mansions, UFOs, and airplanes.", image: "images/funfact11.png" },
+      { text: "McDonald's is not the oldest burger chain; White Castle started in 1921.", image: "images/funfact12.png" }
+    ];
 
-  let currentFactIndex = 0;
-  const factTextEl = document.getElementById('fun-fact-text');
-  const factImageEl = document.getElementById('fun-fact-image');
-  const nextButton = document.getElementById('next-fun-fact');
+    // Insert fun facts into Splide list
+    const list = document.getElementById('fun-facts-list');
 
-  nextButton.addEventListener('click', () => {
-    currentFactIndex = (currentFactIndex + 1) % funFacts.length;
-    factTextEl.textContent = funFacts[currentFactIndex].text;
-    factImageEl.src = funFacts[currentFactIndex].image;
-  });
-</script>
+    funFacts.forEach(fact => {
+      const li = document.createElement('li');
+      li.classList.add('splide__slide');
+      li.innerHTML = `
+        <img src="${fact.image}" alt="Fun Fact">
+        <p>${fact.text}</p>
+      `;
+      list.appendChild(li);
+    });
+
+    // Initialize Splide
+    new Splide('#fun-facts-slider', {
+      type: 'loop',
+      autoplay: true,
+      interval: 4000,
+      pauseOnHover: true,
+      arrows: true,
+      pagination: true,
+      speed: 800,
+      perPage: 3,
+      perMove: 1,
+      gap: '12px'
+    }).mount();
+    // let currentFactIndex = 0;
+    // const factTextEl = document.getElementById('fun-fact-text');
+    // const factImageEl = document.getElementById('fun-fact-image');
+    // const nextButton = document.getElementById('next-fun-fact');
+
+    // // Initialize first fact
+    // factTextEl.textContent = funFacts[0].text;
+    // factImageEl.src = funFacts[0].image;
+
+    // nextButton.addEventListener('click', () => {
+    //   currentFactIndex = (currentFactIndex + 1) % funFacts.length;
+    //   factTextEl.textContent = funFacts[currentFactIndex].text;
+    //   factImageEl.src = funFacts[currentFactIndex].image;
+    // });
+  </script>
+
+</body>
+
+</html>

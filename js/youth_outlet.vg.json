@@ -1,8 +1,8 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "description": "Butterfly chart comparing Relative Youth Level and McDonald's Outlet Density by state (2022).",
-  "width": 550,
-  "height": 530,
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Butterfly chart comparing Relative Youth Level and McDonald's Outlet Density by state (2022) with annotations and center line",
+  "width": 700,
+  "height": 650,
   "data": {
     "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/youth_outlet_summary.csv"
   },
@@ -16,59 +16,135 @@
       "as": "SignedValue"
     }
   ],
-  "mark": "bar",
-  "encoding": {
-    "y": {
-      "field": "state",
-      "type": "nominal",
-      "title": "Malaysia State",
-      "sort": {
-        "op": "max",
-        "field": "NormalizedYouth",
-        "order": "ascending"
-      }
-    },
-    "x": {
-      "field": "SignedValue",
-      "type": "quantitative",
-      "axis": {
-        "title": "Relative Youth Level  <->  McDonald's Outlet Density (per 100,000 people)",
-        "grid": false
-      }
-    },
-    "color": {
-      "field": "Metric",
-      "type": "nominal",
-      "title": null,
-      "scale": {
-        "domain": ["NormalizedYouth", "OutletDensity"],
-        "range": ["#fdb462", "#80b1d3"]
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "hoverBar",
+          "select": { "type": "point", "fields": ["state"], "on": "mouseover" }
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "stroke": "black",
+        "strokeWidth": 0.5,
+        "opacity": 0.6
       },
-      "legend": {
-        "labelExpr": "datum.value == 'NormalizedYouth' ? 'Relative Youth Level' : 'McDonald\\'s Outlet Density (per 100k)'",
-        "orient": "bottom",
-        "columns": 2,
-        "labelFontSize": 12,
-        "titleFontSize": 13,
-        "labelLimit": 200,
-        "offset": 10
+      "encoding": {
+        "y": {
+          "field": "state",
+          "type": "nominal",
+          "title": "Malaysia State",
+          "axis": {
+            "labelFontSize": 14,
+            "titleFontSize": 16
+          },
+
+          "sort": {
+            "op": "max",
+            "field": "NormalizedYouth",
+            "order": "ascending"
+          }
+        },
+        "x": {
+          "field": "SignedValue",
+          "type": "quantitative",
+          "axis": {
+            "labelFontSize": 14,
+            "titleFontSize": 16,
+            "title": "Relative Youth Level  <->  McDonald's Outlet Density (per 100,000 people)",
+            "grid": false
+          },
+          "scale": { "domain": [-1.0, 1.2] }
+        },
+        "color": {
+          "field": "Metric",
+          "type": "nominal",
+          "scale": {
+            "domain": ["NormalizedYouth", "OutletDensity"],
+            "range": ["#fdb462", "#80b1d3"]
+          },
+          "legend": {
+            "labelExpr": "datum.value == 'NormalizedYouth' ? 'Relative Youth Level' : 'McDonald\\'s Outlet Density (per 100k)'",
+            "orient": "none",
+
+            "legendX": 500,              
+            "legendY": 500,             
+            "labelFontSize": 12,
+            "titleFontSize": 14,
+            "labelLimit": 200,
+            "offset": 10,
+            "direction": "vertical",
+            "strokeColor": "black",
+            "padding": 10,
+            "cornerRadius": 6
+
+          }
+        },
+        "fillOpacity": {
+          "condition": { "param": "hoverBar", "value": 1 },
+          "value": 0.6
+        },
+        "strokeWidth": {
+          "condition": { "param": "hoverBar", "value": 2 },
+          "value": 0.5
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "Metric", "title": "Metric" },
+          { "field": "Value", "title": "Value", "format": ".2f" }
+        ]
       }
     },
-    "tooltip": [
-      { "field": "state", "title": "State" },
-      { "field": "Metric", "title": "Metric" },
-      { "field": "Value", "title": "Value", "format": ".2f" }
-    ]
-  },
-  "title": {
-    "text": "Comparing Relative Youth Level and McDonald's Outlet Density Across Malaysian States (2022)",
-    "fontSize": 16,
-    "fontWeight": "bold",
-    "anchor": "start"
-  },
+
+    {
+      "mark": {
+        "type": "rule",
+        "strokeDash": [4, 4],
+        "stroke": "#666",
+        "strokeWidth": 1
+      },
+      "encoding": {
+        "x": { "datum": 0 }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": -220,
+        "dy": -14,
+        "font": "sans-serif",
+        "fontSize": 14,
+        "fill": " rgb(190, 110, 35)"
+      },
+      "encoding": {
+        "x": { "datum": 0.7 },
+        "y": { "datum": "Selangor" },
+        "text": { "datum": "Highest Outlet Density (Urban hub)" }
+      }
+    },
+
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": 20,
+        "dy": -14,
+        "font": "sans-serif",
+        "fontSize": 14,
+        "fill": "rgb(190, 110, 35)"
+      },
+      "encoding": {
+        "x": { "datum": -0.1 },
+        "y": { "datum": "Perlis" },
+        "text": { "datum": "Highest Youth Level (Youth-dominant)" }
+      }
+    }
+  ],
   "config": {
     "bar": { "size": 10 },
-    "axis": { "labelFontSize": 12, "titleFontSize": 13 },
-    "view": { "stroke": "transparent" }
+    "axis": { "labelFontSize": 12, "titleFontSize": 14 },
+    "view": { "stroke": "transparent", "clip": false }
   }
 }

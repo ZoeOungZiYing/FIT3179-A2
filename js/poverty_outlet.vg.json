@@ -1,82 +1,175 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "description": "Grouped bar chart with manual legend (normalized values).",
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Grouped bar chart with hover effect, average lines, and state filter with 'All' option.",
   "width": 1130,
   "height": 450,
-  "data": { "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv" },
-  "encoding": {
-    "x": {
-      "field": "state",
-      "type": "nominal",
-      "title": "State",
-      "sort": {
-        "field": "OutletDensity",
-        "op": "max",
-        "order": "ascending"
-      }
-    }
-  },
-  "layer": [
+  "params": [
     {
-      "mark": { "type": "bar", "xOffset": -10, "size": 20, "color": "#80b1d3" },
-      "encoding": {
-        "y": {
-          "field": "OutletDensity",
-          "type": "quantitative",
-          "title": "Value"
-        },
-        "tooltip": [
-          { "field": "state", "title": "State" },
-          {
-            "field": "OutletDensity",
-            "title": "Outlet Density (per 100k)",
-            "format": ".3f"
-          }
-        ]
-      }
-    },
-    {
-      "mark": { "type": "bar", "xOffset": 10, "size": 20, "color": "#fdb462" },
-      "encoding": {
-        "y": {
-          "field": "NormalizedPovertyRate",
-          "type": "quantitative",
-          "title": null
-        },
-        "tooltip": [
-          { "field": "state", "title": "State" },
-          {
-            "field": "NormalizedPovertyRate",
-            "title": "Relative Poverty Level"
-          }
-        ]
-      }
-    },
-    {
-      "data": {
-        "values": [
-          { "Metric": "Outlet Density (per 100k)", "color": "#80b1d3" },
-          { "Metric": "Relative Poverty Level", "color": "#fdb462" }
-        ]
-      },
-      "mark": "bar",
-      "encoding": {
-        "x": { "value": 0 },
-        "y": { "value": 0 },
-        "color": {
-          "field": "Metric",
-          "type": "nominal",
-          "scale": { "range": ["#80b1d3", "#fdb462"] },
-          "legend": {
-            "title": "Metric",
-            "orient": "bottom",
-            "labelFontSize": 12,
-            "titleFontSize": 13,
-            "symbolType": "square"
-          }
-        }
+      "name": "selected_state",
+      "value": "All",
+      "bind": {
+        "input": "select",
+        "options": [
+          "All","Johor","Kedah","Kelantan","Selangor","Pulau Pinang","Perak",
+          "Pahang","Terengganu","Negeri Sembilan","Melaka","Perlis","Sabah","Sarawak"
+        ],
+        "name": "Select State: "
       }
     }
   ],
-  "title": "Comparison of McDonald's Outlet Density and Relative Poverty Level by State (2022)"
+  "data": {
+    "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv"
+  },
+  "transform": [
+    { "filter": "selected_state == 'All' || datum.state == selected_state" }
+  ],
+  "layer": [
+    {
+      "params": [
+        {
+          "name": "hoverBar",
+          "select": { "type": "point", "fields": ["state"], "on": "mouseover" }
+        }
+      ],
+      "mark": {
+        "type": "bar",
+        "xOffset": -10,
+        "size": 20,
+        "stroke": "black",
+        "strokeWidth": 0.5,
+        "opacity": 0.6
+      },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "title": "State",
+          "axis": { "labelFontSize": 16, "titleFontSize": 18 },
+          "sort": { "field": "OutletDensity", "op": "max", "order": "ascending" }
+        },
+        "y": {
+          "field": "OutletDensity",
+          "type": "quantitative",
+          "title": "Value",
+          "axis": { "labelFontSize": 16, "titleFontSize": 18 }
+        },
+        "color": { "value": "#80b1d3" },
+        "fillOpacity": {
+          "condition": { "param": "hoverBar", "value": 1 },
+          "value": 0.6
+        },
+        "strokeWidth": {
+          "condition": { "param": "hoverBar", "value": 2 },
+          "value": 0.5
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "OutletDensity", "title": "Outlet Density (per 100k)", "format": ".3f" }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "bar",
+        "xOffset": 10,
+        "size": 20,
+        "stroke": "black",
+        "strokeWidth": 0.5,
+        "opacity": 0.6
+      },
+      "encoding": {
+        "x": {
+          "field": "state",
+          "type": "nominal",
+          "title": null,
+          "axis": { "labelFontSize": 16, "titleFontSize": 18 },
+          "sort": { "field": "OutletDensity", "op": "max", "order": "ascending" }
+        },
+        "y": {
+          "field": "NormalizedPovertyRate",
+          "type": "quantitative",
+          "title": null,
+          "axis": { "labelFontSize": 16, "titleFontSize": 18 }
+        },
+        "color": { "value": "#fdb462" },
+        "fillOpacity": {
+          "condition": { "param": "hoverBar", "value": 1 },
+          "value": 0.6
+        },
+        "strokeWidth": {
+          "condition": { "param": "hoverBar", "value": 2 },
+          "value": 0.5
+        },
+        "tooltip": [
+          { "field": "state", "title": "State" },
+          { "field": "NormalizedPovertyRate", "title": "Relative Poverty Level" }
+        ]
+      }
+    },
+    {
+      "transform": [{ "aggregate": [{ "op": "mean", "field": "OutletDensity", "as": "avgOutlet" }] }],
+      "layer": [
+        {
+          "mark": { "type": "rule", "strokeDash": [5, 5], "color": "#1f78b4" },
+          "encoding": {
+            "y": { "field": "avgOutlet", "type": "quantitative" },
+            "size": { "value": 2 },
+            "tooltip": [
+              { "field": "avgOutlet", "title": "Average Outlet Density", "format": ".3f" }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dx": -1000,
+            "dy": -10,
+            "color": "#1f78b4",
+            "fontWeight": "bold",
+            "fontSize": 16
+          },
+          "encoding": {
+            "y": { "field": "avgOutlet", "type": "quantitative" },
+            "x": { "value": 1130 },
+            "text": { "value": "Average Outlet Density" }
+          }
+        }
+      ]
+    },
+    {
+      "transform": [{ "aggregate": [{ "op": "mean", "field": "NormalizedPovertyRate", "as": "avgPoverty" }] }],
+      "layer": [
+        {
+          "mark": { "type": "rule", "strokeDash": [5, 5], "color": "#fdb462" },
+          "encoding": {
+            "y": { "field": "avgPoverty", "type": "quantitative" },
+            "size": { "value": 2 },
+            "tooltip": [
+              { "field": "avgPoverty", "title": "Average Poverty Level", "format": ".3f" }
+            ]
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "dx": -950,
+            "dy": -30,
+            "color": "#fdb462",
+            "fontWeight": "bold",
+            "fontSize": 16
+          },
+          "encoding": {
+            "y": { "field": "avgPoverty", "type": "quantitative" },
+            "x": { "value": 1130 },
+            "text": { "value": "Average Poverty Level" }
+          }
+        }
+      ]
+    }
+  ],
+  "config": {
+    "bar": { "size": 20 },
+    "axis": { "labelFontSize": 16, "titleFontSize": 18 },
+    "view": { "stroke": "transparent" }
+  }
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Bubble chart: Tourism arrivals vs McDonald's outlet count by state, categorized into High/Medium/Low tourism",
-  "width": 550,
-  "height": 480,
+  "description": "Bubble chart: Tourism arrivals vs McDonald's outlet count by state, with hover highlighting and category filter",
+  "width": 700,
+  "height": 550,
   "padding": { "top": 20, "bottom": 10 },
   "params": [
     {
@@ -15,7 +15,9 @@
       }
     }
   ],
-  "data": { "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-HW10/main/data/tourism_outlets.csv" },
+  "data": {
+    "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-HW10/main/data/tourism_outlets.csv"
+  },
   "transform": [
     {
       "calculate": "datum.tourism_arrivals_2022 > 15000000 ? '>15M' : (datum.tourism_arrivals_2022 > 5000000 ? '5M-15M' : '<5M')",
@@ -29,10 +31,16 @@
           "filter": "categoryFilter == 'All' ? true : datum.TourismCategory == categoryFilter"
         }
       ],
+      "params": [
+        {
+          "name": "hoverBubble",
+          "select": { "type": "point", "on": "mouseover", "fields": ["state"] }
+        }
+      ],
       "mark": {
         "type": "circle",
         "opacity": 0.8,
-        "stroke": "black",
+        "stroke": "white",
         "strokeWidth": 0.5
       },
       "encoding": {
@@ -40,19 +48,30 @@
           "field": "tourism_arrivals_2022",
           "type": "quantitative",
           "title": "Tourism Arrivals (Millions)",
-          "axis": { "format": "~s" }
-          
+          "axis": {
+            "labelFontSize": 14,
+            "titleFontSize": 16
+          }
         },
         "y": {
           "field": "outlet_count",
           "type": "quantitative",
-          "title": "Outlet Count"
+          "title": "Outlet Count",
+          "axis": {
+            "labelFontSize": 14,
+            "titleFontSize": 16
+          }
         },
         "size": {
           "field": "outlet_count",
           "type": "quantitative",
           "title": "Outlet Count",
-          "scale": { "range": [100, 2000] }
+          "scale": { "range": [100, 2000] },
+          "legend": {
+            "titleFontSize": 14,
+            "labelFontSize": 12,
+            "titlePadding": 10
+          }
         },
         "color": {
           "field": "TourismCategory",
@@ -60,15 +79,24 @@
           "title": "Tourism Category",
           "scale": {
             "domain": ["<5M", "5M-15M", ">15M"],
-            "range": ["#8da0cb", "#66c2a5", "#fc8d62"]
+            "range": ["#1b9e77", "#d95f02", "#7570b3"]
           },
           "legend": {
             "orient": "right",
             "offset": 30,
             "padding": 8,
             "titleFontSize": 14,
-            "labelFontSize": 12
+            "labelFontSize": 12,
+            "titlePadding": 10
           }
+        },
+        "fillOpacity": {
+          "condition": { "param": "hoverBubble", "value": 1 },
+          "value": 0.6
+        },
+        "strokeWidth": {
+          "condition": { "param": "hoverBubble", "value": 3 },
+          "value": 0.5
         },
         "tooltip": [
           { "field": "state", "type": "nominal", "title": "State" },
@@ -78,22 +106,32 @@
             "title": "Tourism Arrivals",
             "format": ","
           },
-          { "field": "outlet_count", "type": "quantitative", "title": "Outlet Count" },
-          { "field": "TourismCategory", "type": "nominal", "title": "Tourism Category" }
+          {
+            "field": "outlet_count",
+            "type": "quantitative",
+            "title": "Outlet Count"
+          },
+          {
+            "field": "TourismCategory",
+            "type": "nominal",
+            "title": "Tourism Category"
+          }
         ]
       }
     },
     {
       "transform": [
         {
-          "aggregate": [{ "op": "mean", "field": "outlet_count", "as": "avg_outlet" }]
+          "aggregate": [
+            { "op": "mean", "field": "outlet_count", "as": "avg_outlet" }
+          ]
         }
       ],
       "layer": [
         {
           "mark": {
             "type": "rule",
-            "color": "black",
+            "color": "#fdb462",
             "strokeDash": [4, 4],
             "size": 2
           },
@@ -113,8 +151,10 @@
             "type": "text",
             "align": "left",
             "dx": 5,
-            "dy": -5,
-            "fontWeight": "bold"
+            "dy": -10,
+            "fontWeight": "bold",
+            "color": "#fdb462",
+            "fontSize": 16
           },
           "encoding": {
             "y": { "field": "avg_outlet", "type": "quantitative" },
@@ -126,9 +166,8 @@
   ],
   "title": {
     "text": "",
-    "fontSize": 16,
+    "fontSize": 20,
     "fontWeight": "bold",
-    "anchor": "middle",
     "offset": 10
   },
   "config": {

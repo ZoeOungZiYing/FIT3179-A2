@@ -1,19 +1,12 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": 1040,
+  "width": 880,
   "height": 600,
   "padding": { "top": 10, "bottom": 10 },
-  "title": {
-    "text": "Malaysia Population & McDonald's Outlets",
-    "anchor": "middle",
-    "fontSize": 20,
-    "fontWeight": "bold",
-    "offset": 10
-  },
   "projection": {
     "type": "mercator",
     "center": [109.5, 5],
-    "scale": 2900
+    "scale": 2500
   },
   "layer": [
     {
@@ -59,7 +52,17 @@
           "field": "Total_Population",
           "type": "quantitative",
           "scale": { "scheme": "blues" },
-          "title": "Total Population ('000)"
+          "title": "Total Population ('000)",
+          "legend": {
+            "orient": "bottom",        
+            "direction": "horizontal", 
+            "gradientLength": 880,
+            "tickCount": 10,
+            "titleAnchor": "start",
+            "titleFontSize": 14,
+            "labelFontSize": 12
+
+          }
         },
         "tooltip": [
           { "field": "properties.name", "title": "State" },
@@ -92,7 +95,21 @@
           "field": "Number of Locations",
           "type": "quantitative",
           "scale": { "range": [200, 3000] },
-          "title": "Number of Outlets"
+          "title": "Number of Outlets",
+          "legend": {
+            "titleAnchor": "start",
+            "strokeColor": "rgb(234, 212, 192)",      
+            "cornerRadius": 6,          
+            "padding": 10,   
+            "titleFontSize": 14,
+            "labelFontSize": 12,
+            "orient": "none",           
+            "fillColor": "rgb(255, 244, 227)",
+            "legendX": 10,              
+            "legendY": 10,             
+            "direction": "horizontal"
+          }
+
         },
         "strokeWidth": {
           "condition": { "param": "hoverCircle", "value": 1 },

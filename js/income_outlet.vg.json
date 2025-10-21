@@ -1,69 +1,124 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-  "description": "Scatter plot of Median Income vs McDonald's Outlet Density by Malaysian state with unique colors per state",
-  "width": 500,
-  "height": 550,
-  "data": {
-    "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv"
+  "config": {
+    "axis": { "labelFontSize": 14, "titleFontSize": 16 , "titlePadding": 12},
+    "view": { "stroke": "transparent" }
   },
-  "layer": [
+  "hconcat": [
     {
-      "mark": {
-        "type": "circle",
-        "tooltip": true,
-        "size": 100,
-        "opacity": 0.8
+      "description": "Scatter plot of Median Income vs McDonald's Outlet Density by Malaysian state using flag images",
+      "width": 560,
+      "height": 520,
+      "data": {
+        "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv"
       },
-      "encoding": {
-        "x": {
-          "field": "MedianIncome",
-          "type": "quantitative",
-          "title": "Median Income (MYR)"
-        },
-        "y": {
-          "field": "OutletDensity",
-          "type": "quantitative",
-          "title": "McDonald's Outlet Density (per 100k)"
-        },
-        "color": {
-          "field": "state",
-          "type": "nominal",
-          "title": "State",
-          "legend": {
-            "orient": "right",
-            "labelFontSize": 12,
-            "titleFontSize": 13
+      "layer": [
+        {
+          "mark": { "type": "image", "width": 40, "height": 40 },
+          "encoding": {
+            "x": {
+              "field": "MedianIncome",
+              "type": "quantitative",
+              "title": "Median Income (MYR)"
+            },
+            "y": {
+              "field": "OutletDensity",
+              "type": "quantitative",
+              "title": "McDonald's Outlet Density (per 100k)"
+            },
+            "url": { "field": "flag_url" },
+            "tooltip": [
+              { "field": "state", "title": "State" },
+              { "field": "MedianIncome", "title": "Median Income (MYR)" },
+              {
+                "field": "OutletDensity",
+                "title": "Outlet Density (per 100k)",
+                "format": ".3f"
+              },
+              { "field": "Population", "title": "Population" }
+            ]
           }
         },
-        "tooltip": [
-          { "field": "state", "title": "State" },
-          { "field": "MedianIncome", "title": "Median Income (MYR)" },
-          {
-            "field": "OutletDensity",
-            "title": "Outlet Density (per 100k)",
-            "format": ".3f"
+        {
+          "mark": { "type": "line", "color": "orange", "size": 2 },
+          "transform": [{ "regression": "OutletDensity", "on": "MedianIncome" }],
+          "encoding": {
+            "x": { "field": "MedianIncome", "type": "quantitative" },
+            "y": { "field": "OutletDensity", "type": "quantitative" }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "text": " Positive correlation:\nHigher income -> more outlets",
+            "align": "left",
+            "fontSize": 18,
+            "color": "orange",
+            "dx": 10,
+            "dy": 10
           },
-          { "field": "Population", "title": "Population" }
-        ]
-      }
+          "encoding": {
+            "x": { "value": 80 },
+            "y": { "value": 1.1 }
+          }
+        },
+        {
+          "mark": {
+            "type": "rule",
+            "color": "orange",
+            "x2Offset": 40
+          },
+          "encoding": {
+            "x": { "value": 390 },
+            "x2": { "value": 400 },
+            "y": { "value": 20 },
+            "y2": { "value": 90.0 }
+          }
+        }
+      ]
     },
     {
-      "mark": { "type": "line", "color": "orange", "size": 2 },
-      "transform": [{ "regression": "OutletDensity", "on": "MedianIncome" }],
-      "encoding": {
-        "x": { "field": "MedianIncome", "type": "quantitative" },
-        "y": { "field": "OutletDensity", "type": "quantitative" }
-      }
+      "description": "Custom legend with flags",
+      "width": 200,
+      "height": 550,
+      "data": {
+        "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv"
+      },
+      "layer": [
+        {
+          "mark": { "type": "image", "width": 25, "height": 25 },
+          "encoding": {
+            "y": {
+              "field": "state",
+              "type": "nominal",
+              "sort": "ascending",
+              "axis": null
+            },
+            "x": { "value": 55 },
+            "url": { "field": "flag_url" }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "dx": 80,
+            "baseline": "middle",
+            "fontSize": 16
+          },
+          "encoding": {
+            "y": {
+              "field": "state",
+              "type": "nominal",
+              "sort": "ascending",
+              "axis": null
+            },
+            "text": { "field": "state" },
+            "x": { "value": 0 }
+          }
+        }
+      ],
+      "title": { "text": "State", "fontSize": 16, "fontWeight": "bold" }
     }
-  ],
-  "title": {
-    "text": "Median Income vs McDonald's Outlet Density by State (2022)",
-    "fontSize": 16,
-    "fontWeight": "bold",
-    "anchor": "start"
-  },
-  "config": {
-    "axis": { "labelFontSize": 12, "titleFontSize": 13 },
-    "view": { "stroke": "transparent" }
-  }
+  ]
 }
