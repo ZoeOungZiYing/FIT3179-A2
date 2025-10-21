@@ -11,8 +11,20 @@
       "bind": {
         "input": "select",
         "options": [
-          "All","Johor","Kedah","Kelantan","Selangor","Pulau Pinang","Perak",
-          "Pahang","Terengganu","Negeri Sembilan","Melaka","Perlis","Sabah","Sarawak"
+          "All",
+          "Johor",
+          "Kedah",
+          "Kelantan",
+          "Selangor",
+          "Pulau Pinang",
+          "Perak",
+          "Pahang",
+          "Terengganu",
+          "Negeri Sembilan",
+          "Melaka",
+          "Perlis",
+          "Sabah",
+          "Sarawak"
         ],
         "name": "Select State: "
       }
@@ -49,7 +61,11 @@
           "type": "nominal",
           "title": "State",
           "axis": { "labelFontSize": 16, "titleFontSize": 18 },
-          "sort": { "field": "OutletDensity", "op": "max", "order": "ascending" }
+          "sort": {
+            "field": "OutletDensity",
+            "op": "max",
+            "order": "ascending"
+          }
         },
         "y": {
           "field": "OutletDensity",
@@ -68,7 +84,11 @@
         },
         "tooltip": [
           { "field": "state", "title": "State" },
-          { "field": "OutletDensity", "title": "Outlet Density (per 100k)", "format": ".3f" }
+          {
+            "field": "OutletDensity",
+            "title": "Outlet Density (per 100k)",
+            "format": ".3f"
+          }
         ]
       }
     },
@@ -88,7 +108,11 @@
           "type": "nominal",
           "title": null,
           "axis": { "labelFontSize": 16, "titleFontSize": 18 },
-          "sort": { "field": "OutletDensity", "op": "max", "order": "ascending" }
+          "sort": {
+            "field": "OutletDensity",
+            "op": "max",
+            "order": "ascending"
+          }
         },
         "y": {
           "field": "NormalizedPovertyRate",
@@ -107,20 +131,34 @@
         },
         "tooltip": [
           { "field": "state", "title": "State" },
-          { "field": "NormalizedPovertyRate", "title": "Relative Poverty Level", "format": ".3f" }
+          {
+            "field": "NormalizedPovertyRate",
+            "title": "Relative Poverty Level",
+            "format": ".3f"
+          }
         ]
       }
     },
 
     {
-      "transform": [{ "aggregate": [{ "op": "mean", "field": "OutletDensity", "as": "avgOutlet" }] }],
+      "transform": [
+        {
+          "aggregate": [
+            { "op": "mean", "field": "OutletDensity", "as": "avgOutlet" }
+          ]
+        }
+      ],
       "layer": [
         {
           "mark": { "type": "rule", "strokeDash": [5, 5], "color": "#1f78b4" },
           "encoding": {
             "y": { "field": "avgOutlet", "type": "quantitative" },
             "tooltip": [
-              { "field": "avgOutlet", "title": "Average Outlet Density", "format": ".3f" }
+              {
+                "field": "avgOutlet",
+                "title": "Average Outlet Density",
+                "format": ".3f"
+              }
             ]
           }
         },
@@ -143,14 +181,28 @@
     },
 
     {
-      "transform": [{ "aggregate": [{ "op": "mean", "field": "NormalizedPovertyRate", "as": "avgPoverty" }] }],
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "NormalizedPovertyRate",
+              "as": "avgPoverty"
+            }
+          ]
+        }
+      ],
       "layer": [
         {
           "mark": { "type": "rule", "strokeDash": [5, 5], "color": "#fdb462" },
           "encoding": {
             "y": { "field": "avgPoverty", "type": "quantitative" },
             "tooltip": [
-              { "field": "avgPoverty", "title": "Average Poverty Level", "format": ".3f" }
+              {
+                "field": "avgPoverty",
+                "title": "Average Poverty Level",
+                "format": ".3f"
+              }
             ]
           }
         },
@@ -175,7 +227,10 @@
     {
       "data": {
         "values": [
-          { "Metric": "McDonald's Outlet Density (per 100k)", "color": "#80b1d3" },
+          {
+            "Metric": "McDonald's Outlet Density (per 100k)",
+            "color": "#80b1d3"
+          },
           { "Metric": "Relative Poverty Level", "color": "#fdb462" }
         ]
       },
@@ -190,27 +245,28 @@
           "legend": {
             "title": "Metric",
             "orient": "none",
-            "legendX": 90,          
-            "legendY": 70,          
+            "legendX": 90,
+            "legendY": 20,
             "direction": "vertical",
             "labelFontSize": 13,
             "titleFontSize": 14,
+            "labelLimit": 400,
             "symbolType": "square",
-            "strokeColor": "black",  
-            "cornerRadius": 6,       
-            "padding": 10,           
-            "fillColor": "white"     
+            "strokeColor": "black",
+            "cornerRadius": 6,
+            "padding": 20,
+            "fillColor": "white",
+            "symbolSize": 200,
+            "symbolStrokeWidth": 2
           }
         }
       }
     }
   ],
 
-  "title": "Comparison of McDonald's Outlet Density and Relative Poverty Level by State (2022)",
-
   "config": {
     "bar": { "size": 20 },
     "axis": { "labelFontSize": 16, "titleFontSize": 18 },
-    "view": { "stroke": "transparent" }
+    "view": { "stroke": "transparent", "clip": false }
   }
 }
