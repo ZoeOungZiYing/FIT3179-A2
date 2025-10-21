@@ -1,8 +1,9 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "description": "Grouped bar chart with hover effect, average lines, and state filter with 'All' option.",
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "Grouped bar chart comparing McDonald's Outlet Density and Relative Poverty Level by state, with hover, average lines, state filter, and manual legend.",
   "width": 1130,
   "height": 450,
+
   "params": [
     {
       "name": "selected_state",
@@ -17,12 +18,15 @@
       }
     }
   ],
+
   "data": {
     "url": "https://raw.githubusercontent.com/ZoeOungZiYing/FIT3179-A2/main/data/state_summary.csv"
   },
+
   "transform": [
     { "filter": "selected_state == 'All' || datum.state == selected_state" }
   ],
+
   "layer": [
     {
       "params": [
@@ -68,6 +72,7 @@
         ]
       }
     },
+
     {
       "mark": {
         "type": "bar",
@@ -102,10 +107,11 @@
         },
         "tooltip": [
           { "field": "state", "title": "State" },
-          { "field": "NormalizedPovertyRate", "title": "Relative Poverty Level" }
+          { "field": "NormalizedPovertyRate", "title": "Relative Poverty Level", "format": ".3f" }
         ]
       }
     },
+
     {
       "transform": [{ "aggregate": [{ "op": "mean", "field": "OutletDensity", "as": "avgOutlet" }] }],
       "layer": [
@@ -113,7 +119,6 @@
           "mark": { "type": "rule", "strokeDash": [5, 5], "color": "#1f78b4" },
           "encoding": {
             "y": { "field": "avgOutlet", "type": "quantitative" },
-            "size": { "value": 2 },
             "tooltip": [
               { "field": "avgOutlet", "title": "Average Outlet Density", "format": ".3f" }
             ]
@@ -122,11 +127,11 @@
         {
           "mark": {
             "type": "text",
-            "dx": -1000,
+            "dx": -990,
             "dy": -10,
             "color": "#1f78b4",
             "fontWeight": "bold",
-            "fontSize": 16
+            "fontSize": 15
           },
           "encoding": {
             "y": { "field": "avgOutlet", "type": "quantitative" },
@@ -136,6 +141,7 @@
         }
       ]
     },
+
     {
       "transform": [{ "aggregate": [{ "op": "mean", "field": "NormalizedPovertyRate", "as": "avgPoverty" }] }],
       "layer": [
@@ -143,7 +149,6 @@
           "mark": { "type": "rule", "strokeDash": [5, 5], "color": "#fdb462" },
           "encoding": {
             "y": { "field": "avgPoverty", "type": "quantitative" },
-            "size": { "value": 2 },
             "tooltip": [
               { "field": "avgPoverty", "title": "Average Poverty Level", "format": ".3f" }
             ]
@@ -156,7 +161,7 @@
             "dy": -30,
             "color": "#fdb462",
             "fontWeight": "bold",
-            "fontSize": 16
+            "fontSize": 15
           },
           "encoding": {
             "y": { "field": "avgPoverty", "type": "quantitative" },
@@ -165,8 +170,44 @@
           }
         }
       ]
+    },
+
+    {
+      "data": {
+        "values": [
+          { "Metric": "McDonald's Outlet Density (per 100k)", "color": "#80b1d3" },
+          { "Metric": "Relative Poverty Level", "color": "#fdb462" }
+        ]
+      },
+      "mark": "bar",
+      "encoding": {
+        "x": { "value": 0 },
+        "y": { "value": 0 },
+        "color": {
+          "field": "Metric",
+          "type": "nominal",
+          "scale": { "range": ["#80b1d3", "#fdb462"] },
+          "legend": {
+            "title": "Metric",
+            "orient": "none",
+            "legendX": 90,          
+            "legendY": 70,          
+            "direction": "vertical",
+            "labelFontSize": 13,
+            "titleFontSize": 14,
+            "symbolType": "square",
+            "strokeColor": "black",  
+            "cornerRadius": 6,       
+            "padding": 10,           
+            "fillColor": "white"     
+          }
+        }
+      }
     }
   ],
+
+  "title": "Comparison of McDonald's Outlet Density and Relative Poverty Level by State (2022)",
+
   "config": {
     "bar": { "size": 20 },
     "axis": { "labelFontSize": 16, "titleFontSize": 18 },
